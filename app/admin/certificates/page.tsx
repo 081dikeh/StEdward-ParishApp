@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
+import { CertificateStatusAction } from "./status-action"
 
 export const metadata = {
   title: "Certificate Requests - Admin",
@@ -25,7 +26,10 @@ export default async function AdminCertificatesPage() {
     redirect("/protected")
   }
 
-  const { data: certificates } = await supabase.from("marriage_certificate_requests").select("*")
+  const { data: certificates } = await supabase
+    .from("marriage_certificate_requests")
+    .select("*")
+    .order("created_at", { ascending: false })
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -51,46 +55,46 @@ export default async function AdminCertificatesPage() {
               certificates.map((cert) => (
                 <Card key={cert.id}>
                   <CardContent className="pt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                       <div>
-                        <p className="text-sm text-slate-600">Groom</p>
+                        <p className="text-xs text-slate-500 mb-1">Groom</p>
                         <p className="font-semibold text-slate-900">{cert.groom_full_name}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-slate-600">Bride</p>
+                        <p className="text-xs text-slate-500 mb-1">Bride</p>
                         <p className="font-semibold text-slate-900">{cert.bride_full_name}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-slate-600">Certificate Type</p>
+                        <p className="text-xs text-slate-500 mb-1">Certificate Type</p>
                         <p className="font-semibold capitalize text-slate-900">{cert.certificate_type}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-slate-600">Copies Needed</p>
+                        <p className="text-xs text-slate-500 mb-1">Copies Needed</p>
                         <p className="font-semibold text-slate-900">{cert.copies_needed}</p>
                       </div>
-                      <div>
-                        <p className="text-sm text-slate-600">Status</p>
-                        <span
-                          className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
-                            cert.status === "completed"
-                              ? "text-emerald-700 bg-emerald-100"
-                              : "text-yellow-700 bg-yellow-100"
-                          }`}
-                        >
-                          {cert.status}
-                        </span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+                      <div className="text-sm text-slate-500">
+                        Contact: <span className="font-medium text-slate-700">{cert.contact}</span>
+                        {cert.wedding_date && (
+                          <span className="ml-4">
+                            Wedding:{" "}
+                            <span className="font-medium text-slate-700">
+                              {new Date(cert.wedding_date).toLocaleDateString()}
+                            </span>
+                          </span>
+                        )}
                       </div>
-                      <div>
-                        <p className="text-sm text-slate-600">Contact</p>
-                        <p className="font-semibold text-slate-900">{cert.contact}</p>
-                      </div>
+                      <CertificateStatusAction certId={cert.id} currentStatus={cert.status} />
                     </div>
                   </CardContent>
                 </Card>
               ))
             ) : (
               <Card>
-                <CardContent className="pt-6 text-center text-slate-600">No certificate requests yet</CardContent>
+                <CardContent className="py-12 text-center text-slate-500">
+                  No certificate requests yet
+                </CardContent>
               </Card>
             )}
           </div>

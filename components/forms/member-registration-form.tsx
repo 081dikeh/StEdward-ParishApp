@@ -166,11 +166,21 @@ export function MemberRegistrationForm({ userId }: { userId: string }) {
         </div>
         <div>
           <Label htmlFor="employment_status">Employment Status</Label>
-          <Input
-            id="employment_status"
+          <Select
             value={formData.employment_status}
-            onChange={(e) => setFormData({ ...formData, employment_status: e.target.value })}
-          />
+            onValueChange={(value) => setFormData({ ...formData, employment_status: value })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="employed">Employed</SelectItem>
+              <SelectItem value="self-employed">Self-Employed</SelectItem>
+              <SelectItem value="unemployed">Unemployed</SelectItem>
+              <SelectItem value="student">Student</SelectItem>
+              <SelectItem value="retired">Retired</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

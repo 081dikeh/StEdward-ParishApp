@@ -1,41 +1,69 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-32 bg-gradient-to-br from-emerald-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-emerald-600 uppercase tracking-wider">Welcome to our parish</p>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                St Edwards Parish, Amawbia
-              </h1>
-            </div>
-            <p className="text-lg text-slate-600 leading-relaxed">
-              A vibrant Catholic community dedicated to faith, spiritual growth, and service to our neighbors. Join us
-              in celebrating the divine and building a stronger parish family.
+    <section className="relative overflow-hidden bg-white">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[560px]">
+          {/* Text side */}
+          <div className="flex flex-col justify-center px-6 py-16 sm:px-10 lg:px-16 xl:px-20 order-2 lg:order-1">
+            <p className="text-xs font-bold text-emerald-600 uppercase tracking-[0.2em] mb-4">
+              Amawbia, Anambra State
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700" asChild>
-                <Link href="/registrations">Join Us Today</Link>
+            <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6">
+              St Edwards
+              <span className="block text-emerald-600">Parish</span>
+            </h1>
+            <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-md">
+              A vibrant Catholic community rooted in faith, sacramental life, and service to
+              our neighbours — from baptism to marriage and beyond.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 shadow-md" asChild>
+                <Link href="/registrations">Join Our Parish</Link>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 asChild
-                className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 bg-transparent"
+                className="border-slate-300 text-slate-700 hover:bg-slate-50 bg-transparent"
               >
-                <Link href="/about">Learn More</Link>
+                <Link href="/about">Our Story</Link>
               </Button>
+            </div>
+
+            {/* Quick stats */}
+            <div className="mt-12 flex gap-8">
+              <div>
+                <p className="text-3xl font-extrabold text-emerald-600">4</p>
+                <p className="text-sm text-slate-500 mt-0.5">Parish Zones</p>
+              </div>
+              <div className="border-l border-slate-200 pl-8">
+                <p className="text-3xl font-extrabold text-emerald-600">4+</p>
+                <p className="text-sm text-slate-500 mt-0.5">Services Online</p>
+              </div>
+              <div className="border-l border-slate-200 pl-8">
+                <p className="text-3xl font-extrabold text-emerald-600">∞</p>
+                <p className="text-sm text-slate-500 mt-0.5">Faith &amp; Community</p>
+              </div>
             </div>
           </div>
 
-          <div className="relative h-96 md:h-96 rounded-2xl overflow-hidden bg-slate-200 flex items-center justify-center">
-            <div className="w-full h-full bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center">
-              <div className="text-white text-6xl">⛪</div>
-            </div>
+          {/* Image side */}
+          <div className="relative order-1 lg:order-2 h-64 sm:h-80 lg:h-auto">
+            <Image
+              src="/white-flowers-peonies-lilies-elegant.jpg"
+              alt="Elegant flowers representing the beauty of parish sacraments"
+              fill
+              className="object-cover"
+              priority
+            />
+            {/* Gradient overlay so text on left reads cleanly on small screens */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/5 lg:hidden" />
+            {/* Decorative side gradient blending into white */}
+            <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent hidden lg:block" />
           </div>
         </div>
       </div>

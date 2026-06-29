@@ -34,7 +34,7 @@ const registrationTypes = [
     icon: BookOpen,
     title: "Marriage Courses",
     description: "Enroll in marriage preparation courses",
-    href: "/protected/marriage-courses",
+    href: "/courses",
   },
 ]
 

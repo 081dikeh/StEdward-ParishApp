@@ -184,9 +184,6 @@ export default async function AdminDashboardPage() {
                 <Button asChild className="w-full justify-start" variant="ghost">
                   <Link href="/admin/courses">Course Enrollments</Link>
                 </Button>
-                <Button asChild className="w-full justify-start" variant="ghost">
-                  <Link href="/admin/analytics">Analytics & Reports</Link>
-                </Button>
               </CardContent>
             </Card>
           </div>
