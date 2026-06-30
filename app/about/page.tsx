@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "About St Edwards Parish",
+  title: "About St William Parish",
   description: "Learn about our parish history, mission, and community",
 }
 
@@ -13,11 +13,11 @@ export default function AboutPage() {
 
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">About St Edwards Parish</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">About St William Parish</h1>
 
           <div className="space-y-8 text-slate-700 text-lg leading-relaxed">
             <p>
-              St Edwards Parish, located in the heart of Amawbia, stands as a beacon of faith and community service. Our
+              St William Parish, located in the heart of Amawbia, stands as a beacon of faith and community service. Our
               parish has a rich history of spiritual leadership and dedication to the Catholic faith.
             </p>
 
@@ -33,7 +33,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Our History</h2>
               <p>
-                Founded on the principles of Catholic faith and community unity, St Edwards Parish has grown into a
+                Founded on the principles of Catholic faith and community unity, St William Parish has grown into a
                 vibrant spiritual home for thousands of faithful. Over the years, our parish has evolved to meet the
                 spiritual and social needs of our members.
               </p>

@@ -78,10 +78,10 @@ export function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
-              <span className="text-white font-bold text-base">✦</span>
+              <span className="text-white font-bold text-base">âœ¦</span>
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-bold text-slate-900 leading-tight">St Edwards Parish</p>
+              <p className="text-sm font-bold text-slate-900 leading-tight">St William Parish</p>
               <p className="text-xs text-slate-500">Amawbia</p>
             </div>
           </Link>

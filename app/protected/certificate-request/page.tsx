@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { CertificateRequestForm } from "@/components/forms/certificate-request-form"
 
 export const metadata = {
-  title: "Marriage Certificate Request - St Edwards Parish",
+  title: "Marriage Certificate Request - St William Parish",
 }
 
 export default async function CertificateRequestPage() {

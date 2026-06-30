@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // ── Only here (runtime) we create Stripe ────────────────────────────────
+    // â”€â”€ Only here (runtime) we create Stripe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (!process.env.STRIPE_SECRET_KEY) {
       console.error("STRIPE_SECRET_KEY is missing in environment variables");
       return NextResponse.json(
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: "2025-12-15.clover",
     });
-    // ───────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -35,11 +35,11 @@ export async function POST(request: Request) {
             product_data: {
               name:
                 paymentType === "tithe"
-                  ? "Tithe - St Edwards Parish"
-                  : "Donation - St Edwards Parish",
+                  ? "Tithe - St William Parish"
+                  : "Donation - St William Parish",
               description: description || "Church donation / offering",
             },
-            unit_amount: amount, // ← should be in kobo (smallest unit)
+            unit_amount: amount, // â† should be in kobo (smallest unit)
           },
           quantity: 1,
         },
@@ -66,7 +66,7 @@ export async function POST(request: Request) {
     const { error } = await supabase.from("payments").insert([
       {
         user_id: userId,
-        amount: amount / 100, // convert kobo → NGN if you store in Naira
+        amount: amount / 100, // convert kobo â†’ NGN if you store in Naira
         payment_type: paymentType,
         stripe_payment_id: session.id,
         status: "pending",
@@ -89,5 +89,5 @@ export async function POST(request: Request) {
   }
 }
 
-// Optional but recommended – prevent static prerendering of this route
+// Optional but recommended â€“ prevent static prerendering of this route
 export const dynamic = "force-dynamic";

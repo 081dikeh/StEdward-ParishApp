@@ -6,7 +6,7 @@ import Link from "next/link"
 import { LogOut, User, FileText, Heart, Baby } from "lucide-react"
 
 export const metadata = {
-  title: "User Dashboard - St Edwards Parish",
+  title: "User Dashboard - St William Parish",
 }
 
 export default async function DashboardPage() {

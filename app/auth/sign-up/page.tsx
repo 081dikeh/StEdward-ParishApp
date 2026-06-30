@@ -54,7 +54,7 @@ export default function SignUpPage() {
         <div className="flex flex-col gap-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-slate-900">Create Account</h1>
-            <p className="text-slate-600">Join St Edwards Parish today</p>
+            <p className="text-slate-600">Join St William Parish today</p>
           </div>
 
           <Card>

@@ -8,7 +8,7 @@ import Link from "next/link"
 import { Users, Heart, Baby, FileText, DollarSign, BookOpen, LogOut } from "lucide-react"
 
 export const metadata = {
-  title: "Admin Dashboard - St Edwards Parish",
+  title: "Admin Dashboard - St William Parish",
 }
 
 export default async function AdminDashboardPage() {
@@ -80,7 +80,7 @@ export default async function AdminDashboardPage() {
     {
       icon: DollarSign,
       label: "Total Revenue",
-      value: `₦${totalRevenue.toLocaleString()}`,
+      value: `â‚¦${totalRevenue.toLocaleString()}`,
       href: "/admin/payments",
       color: "green",
     },

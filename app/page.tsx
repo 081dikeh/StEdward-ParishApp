@@ -5,7 +5,7 @@ import { CallToAction } from "@/components/call-to-action"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "St Edwards Parish, Amawbia - Welcome",
+  title: "St William Parish, Amawbia - Welcome",
   description: "A vibrant Catholic community dedicated to faith, service, and spiritual growth.",
 }
 

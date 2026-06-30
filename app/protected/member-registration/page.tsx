@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { MemberRegistrationForm } from "@/components/forms/member-registration-form"
 
 export const metadata = {
-  title: "Member Registration - St Edwards Parish",
+  title: "Member Registration - St William Parish",
 }
 
 export default async function MemberRegistrationPage() {
@@ -22,7 +22,7 @@ export default async function MemberRegistrationPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-slate-900 mb-2">Member Registration</h1>
-            <p className="text-slate-600">Register as a member of St Edwards Parish in your zone</p>
+            <p className="text-slate-600">Register as a member of St William Parish in your zone</p>
           </div>
 
           <Card>

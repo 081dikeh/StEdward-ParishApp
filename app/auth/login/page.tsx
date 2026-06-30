@@ -44,7 +44,7 @@ export default function LoginPage() {
         <div className="flex flex-col gap-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
-            <p className="text-slate-600">Sign in to your St Edwards Parish account</p>
+            <p className="text-slate-600">Sign in to your St William Parish account</p>
           </div>
 
           <Card>

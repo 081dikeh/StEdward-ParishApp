@@ -48,7 +48,7 @@ export default function PaymentForm() {
           amount: Math.round(Number.parseFloat(amount) * 100), // Stripe expects cents
           paymentType,
           description:
-            description || `${paymentType.charAt(0).toUpperCase() + paymentType.slice(1)} - St Edwards Parish`,
+            description || `${paymentType.charAt(0).toUpperCase() + paymentType.slice(1)} - St William Parish`,
           userId: user.id,
         }),
       })
@@ -97,7 +97,7 @@ export default function PaymentForm() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="amount">Amount (₦) *</Label>
+                  <Label htmlFor="amount">Amount (â‚¦) *</Label>
                   <Input
                     id="amount"
                     type="number"
@@ -121,7 +121,7 @@ export default function PaymentForm() {
 
                 <div className="p-4 bg-slate-100 rounded-lg">
                   <p className="text-sm text-slate-600 mb-2">Amount to pay:</p>
-                  <p className="text-3xl font-bold text-slate-900">₦{amount || "0"}</p>
+                  <p className="text-3xl font-bold text-slate-900">â‚¦{amount || "0"}</p>
                 </div>
 
                 {error && <p className="text-sm text-red-500">{error}</p>}

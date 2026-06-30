@@ -3,7 +3,7 @@ import Footer from "@/components/footer"
 
 export const metadata = {
   title: "Parish Executives & Priests",
-  description: "Meet the leadership team of St Edwards Parish",
+  description: "Meet the leadership team of St William Parish",
 }
 
 interface Executive {
@@ -96,7 +96,7 @@ export default function ExecutivesPage() {
           <div className="mb-14">
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3">Parish Leadership</h1>
             <p className="text-lg text-slate-500">
-              The dedicated priests and executives serving St Edwards Parish, Amawbia
+              The dedicated priests and executives serving St William Parish, Amawbia
             </p>
           </div>
 

@@ -5,8 +5,8 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: "St Edwards Parish, Amawbia",
-  description: "Welcome to St Edwards Parish - A community of faith and service",
+  title: "St William Parish, Amawbia",
+  description: "Welcome to St William Parish - A community of faith and service",
   generator: "v0.app",
   icons: {
     icon: [

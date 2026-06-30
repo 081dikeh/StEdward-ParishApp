@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { BaptismRegistrationForm } from "@/components/forms/baptism-registration-form"
 
 export const metadata = {
-  title: "Baptism Registration - St Edwards Parish",
+  title: "Baptism Registration - St William Parish",
 }
 
 export default async function BaptismRegistrationPage() {
@@ -23,7 +23,7 @@ export default async function BaptismRegistrationPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-slate-900 mb-2">Baptism Registration</h1>
-            <p className="text-slate-600">Register your child for baptism at St Edwards Parish</p>
+            <p className="text-slate-600">Register your child for baptism at St William Parish</p>
           </div>
 
           <Card>

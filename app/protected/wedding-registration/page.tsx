@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { WeddingRegistrationForm } from "@/components/forms/wedding-registration-form"
 
 export const metadata = {
-  title: "Wedding Registration - St Edwards Parish",
+  title: "Wedding Registration - St William Parish",
 }
 
 export default async function WeddingRegistrationPage() {
