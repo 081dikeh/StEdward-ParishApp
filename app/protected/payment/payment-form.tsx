@@ -1,10 +1,8 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { loadStripe } from "@stripe/stripe-js"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,48 +30,37 @@ export default function PaymentForm() {
         throw new Error("Please enter a valid amount")
       }
 
-      const supabase = createClient()
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) throw new Error("User not found")
-
-      // Create payment intent on backend
       const response = await fetch("/api/create-payment-intent", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: Math.round(Number.parseFloat(amount) * 100), // Stripe expects cents
+          amount: Math.round(Number.parseFloat(amount) * 100),
           paymentType,
           description:
-            description || `${paymentType.charAt(0).toUpperCase() + paymentType.slice(1)} - St William Parish`,
-          userId: user.id,
+            description ||
+            `${paymentType.charAt(0).toUpperCase() + paymentType.slice(1)} - St Edwards Parish`,
         }),
       })
 
       if (!response.ok) {
-        throw new Error("Failed to create payment")
+        const data = await response.json()
+        throw new Error(data.error || "Failed to create payment")
       }
 
       const { sessionId } = await response.json()
 
-      // Redirect to Stripe Checkout
       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
       if (!stripe) throw new Error("Stripe failed to load")
 
       await stripe.redirectToCheckout({ sessionId })
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred")
-    } finally {
       setIsLoading(false)
     }
   }
 
   return (
     <main className="min-h-screen bg-white">
-
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
@@ -97,7 +84,7 @@ export default function PaymentForm() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="amount">Amount (â‚¦) *</Label>
+                  <Label htmlFor="amount">Amount (₦) *</Label>
                   <Input
                     id="amount"
                     type="number"
@@ -108,7 +95,6 @@ export default function PaymentForm() {
                     placeholder="Enter amount"
                   />
                 </div>
-
                 <div>
                   <Label htmlFor="description">Description (Optional)</Label>
                   <Input
@@ -118,18 +104,18 @@ export default function PaymentForm() {
                     placeholder="Add a note (e.g., In memory of...)"
                   />
                 </div>
-
                 <div className="p-4 bg-slate-100 rounded-lg">
                   <p className="text-sm text-slate-600 mb-2">Amount to pay:</p>
-                  <p className="text-3xl font-bold text-slate-900">â‚¦{amount || "0"}</p>
+                  <p className="text-3xl font-bold text-slate-900">₦{amount || "0"}</p>
                 </div>
-
                 {error && <p className="text-sm text-red-500">{error}</p>}
-
-                <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Processing..." : "Proceed to Payment"}
                 </Button>
-
                 <p className="text-xs text-slate-600 text-center">
                   You will be redirected to Stripe to complete your payment securely
                 </p>
@@ -138,7 +124,6 @@ export default function PaymentForm() {
           </Card>
         </div>
       </section>
-
     </main>
   )
 }

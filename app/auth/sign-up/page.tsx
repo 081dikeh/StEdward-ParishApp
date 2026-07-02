@@ -1,15 +1,13 @@
 "use client"
 
 import type React from "react"
-
-import { createClient } from "@/lib/supabase/client"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -21,28 +19,33 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
-    setIsLoading(true)
     setError(null)
 
     if (password !== repeatPassword) {
       setError("Passwords do not match")
-      setIsLoading(false)
+      return
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters")
       return
     }
 
+    setIsLoading(true)
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/protected`,
-        },
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       })
-      if (error) throw error
-      router.push("/auth/sign-up-success")
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred")
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data.error || "Registration failed")
+      } else {
+        router.push("/auth/sign-up-success")
+      }
+    } catch {
+      setError("Something went wrong. Please try again.")
     } finally {
       setIsLoading(false)
     }
@@ -54,7 +57,7 @@ export default function SignUpPage() {
         <div className="flex flex-col gap-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-slate-900">Create Account</h1>
-            <p className="text-slate-600">Join St William Parish today</p>
+            <p className="text-slate-600">Join St Edwards Parish today</p>
           </div>
 
           <Card>
@@ -70,7 +73,7 @@ export default function SignUpPage() {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="m@example.com"
+                      placeholder="you@example.com"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -82,12 +85,13 @@ export default function SignUpPage() {
                       id="password"
                       type="password"
                       required
+                      minLength={8}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label htmlFor="repeat-password">Repeat Password</Label>
+                    <Label htmlFor="repeat-password">Confirm Password</Label>
                     <Input
                       id="repeat-password"
                       type="password"
@@ -98,7 +102,7 @@ export default function SignUpPage() {
                   </div>
                   {error && <p className="text-sm text-red-500">{error}</p>}
                   <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
-                    {isLoading ? "Creating account..." : "Sign Up"}
+                    {isLoading ? "Creating account…" : "Sign Up"}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">

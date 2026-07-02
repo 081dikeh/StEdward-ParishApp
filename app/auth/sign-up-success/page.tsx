@@ -9,7 +9,7 @@ export default function SignUpSuccessPage() {
         <div className="flex flex-col gap-6">
           <Card className="border-emerald-200 bg-emerald-50">
             <CardHeader>
-              <CardTitle className="text-emerald-900">Welcome to St William Parish!</CardTitle>
+              <CardTitle className="text-emerald-900">Welcome to St Edwards Parish!</CardTitle>
               <CardDescription className="text-emerald-700">Your account has been created successfully</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

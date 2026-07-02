@@ -39,7 +39,7 @@ const registrationTypes = [
 ]
 
 export const metadata = {
-  title: "Registrations - St William Parish",
+  title: "Registrations - St Edwards Parish",
   description: "Register for parish services and programs",
 }
 

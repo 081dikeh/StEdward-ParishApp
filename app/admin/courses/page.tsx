@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { db } from "@/lib/db"
 import { Navigation } from "@/components/navigation"
 import Footer from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,81 +9,58 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
-export const metadata = {
-  title: "Course Enrollments - Admin",
-}
+export const dynamic = "force-dynamic"
+
+export const metadata = { title: "Course Enrollments - Admin" }
 
 export default async function AdminCoursesPage() {
-  const supabase = await createClient()
+  const session = await getServerSession(authOptions)
+  if (!session?.user) redirect("/auth/login")
+  if (!session.user.isAdmin) redirect("/protected/dashboard")
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
-
-  const { data: profileData } = await supabase.from("profiles").select("is_admin").eq("id", data.user.id).single()
-
-  if (!profileData?.is_admin) {
-    redirect("/protected")
-  }
-
-  const { data: enrollments } = await supabase.from("marriage_course_enrollments").select("*")
+  const enrollments = await db`SELECT * FROM marriage_course_enrollments ORDER BY created_at DESC`
 
   return (
     <main className="min-h-screen bg-slate-50">
       <Navigation />
-
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 mb-8">
             <Button variant="outline" asChild size="sm">
-              <Link href="/admin" className="flex items-center gap-2">
-                <ArrowLeft size={16} />
-                Back
-              </Link>
+              <Link href="/admin" className="flex items-center gap-2"><ArrowLeft size={16} />Back</Link>
             </Button>
             <div>
               <h1 className="text-3xl font-bold text-slate-900">Course Enrollments</h1>
-              <p className="text-slate-600">Total: {enrollments?.length || 0} couples enrolled</p>
+              <p className="text-slate-600">Total: {enrollments.length} enrollments</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            {enrollments && enrollments.length > 0 ? (
-              enrollments.map((enrollment) => (
-                <Card key={enrollment.id}>
-                  <CardContent className="pt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm text-slate-600">Groom's Email</p>
-                        <p className="font-semibold text-slate-900 text-sm">{enrollment.groom_email}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-600">Bride's Email</p>
-                        <p className="font-semibold text-slate-900 text-sm">{enrollment.bride_email}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-slate-600">Status</p>
-                        <span className="inline-block px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full">
-                          {enrollment.status}
-                        </span>
-                      </div>
+            {enrollments.length > 0 ? enrollments.map((e) => (
+              <Card key={e.id as string}>
+                <CardContent className="pt-6">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1">Groom Email</p>
+                      <p className="font-semibold text-slate-900">{e.groom_email as string}</p>
                     </div>
-                    <div className="text-xs text-slate-500 mt-3 pt-3 border-t">
-                      Enrolled on {new Date(enrollment.created_at).toLocaleDateString()}
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1">Bride Email</p>
+                      <p className="font-semibold text-slate-900">{e.bride_email as string}</p>
                     </div>
-                  </CardContent>
-                </Card>
-              ))
-            ) : (
-              <Card>
-                <CardContent className="pt-6 text-center text-slate-600">No course enrollments yet</CardContent>
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1">Enrolled On</p>
+                      <p className="text-slate-700">{new Date(e.created_at as string).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </CardContent>
               </Card>
+            )) : (
+              <Card><CardContent className="py-12 text-center text-slate-500">No course enrollments yet</CardContent></Card>
             )}
           </div>
         </div>
       </section>
-
       <Footer />
     </main>
   )

@@ -4,16 +4,17 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X, LayoutDashboard, LogOut, Shield } from "lucide-react"
-import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
-import type { User } from "@supabase/supabase-js"
+import { useState } from "react"
+import { useSession, signOut } from "next-auth/react"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
+
+  const user = session?.user
+  const isAdmin = user?.isAdmin
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -24,46 +25,8 @@ export function Navigation() {
     { href: "/donate", label: "Donate" },
   ]
 
-  useEffect(() => {
-    const supabase = createClient()
-
-    const fetchUser = async () => {
-      const { data } = await supabase.auth.getUser()
-      setUser(data.user)
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("is_admin")
-          .eq("id", data.user.id)
-          .single()
-        setIsAdmin(profile?.is_admin ?? false)
-      }
-    }
-
-    fetchUser()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_, session) => {
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("is_admin")
-          .eq("id", session.user.id)
-          .single()
-        setIsAdmin(profile?.is_admin ?? false)
-      } else {
-        setIsAdmin(false)
-      }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
-
   const handleLogout = async () => {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    setUser(null)
-    setIsAdmin(false)
+    await signOut({ redirect: false })
     router.push("/")
     router.refresh()
   }
@@ -75,18 +38,16 @@ export function Navigation() {
     <nav className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
-              <span className="text-white font-bold text-base">âœ¦</span>
+              <span className="text-white font-bold text-base">✦</span>
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-bold text-slate-900 leading-tight">St William Parish</p>
+              <p className="text-sm font-bold text-slate-900 leading-tight">St Edwards Parish</p>
               <p className="text-xs text-slate-500">Amawbia</p>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-0.5">
             {navItems.map((item) => (
               <Link
@@ -103,32 +64,28 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Auth Buttons */}
           <div className="flex items-center gap-2">
             {user ? (
               <div className="hidden sm:flex items-center gap-2">
                 {isAdmin && (
-                  <Button variant="ghost" size="sm" asChild className="text-purple-700 hover:text-purple-800 hover:bg-purple-50">
+                  <Button variant="ghost" size="sm" asChild className="text-purple-700 hover:bg-purple-50">
                     <Link href="/admin" className="flex items-center gap-1.5">
-                      <Shield size={14} />
-                      Admin
+                      <Shield size={14} /> Admin
                     </Link>
                   </Button>
                 )}
                 <Button variant="ghost" size="sm" asChild>
                   <Link href="/protected/dashboard" className="flex items-center gap-1.5">
-                    <LayoutDashboard size={14} />
-                    Dashboard
+                    <LayoutDashboard size={14} /> Dashboard
                   </Link>
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={handleLogout}
-                  className="flex items-center gap-1.5 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 bg-transparent"
+                  className="flex items-center gap-1.5 text-red-600 border-red-200 hover:bg-red-50 bg-transparent"
                 >
-                  <LogOut size={14} />
-                  Logout
+                  <LogOut size={14} /> Logout
                 </Button>
               </div>
             ) : (
@@ -142,7 +99,6 @@ export function Navigation() {
               </div>
             )}
 
-            {/* Mobile menu button */}
             <button
               className="md:hidden p-2 rounded-md hover:bg-slate-100 transition-colors"
               onClick={() => setIsOpen(!isOpen)}
@@ -153,7 +109,6 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden pb-4 pt-2 space-y-1 border-t border-slate-100 mt-1">
             {navItems.map((item) => (

@@ -1,10 +1,14 @@
-import { updateSession } from "@/lib/supabase/proxy"
-import type { NextRequest } from "next/server"
+import { withAuth } from "next-auth/middleware"
 
-export async function proxy(request: NextRequest) {
-  return await updateSession(request)
-}
+export default withAuth(function proxy(_req) {
+  // NextAuth handles the session check via withAuth.
+  // Return undefined to continue to the route.
+}, {
+  pages: {
+    signIn: "/auth/login",
+  },
+})
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/protected/:path*", "/admin/:path*"],
 }

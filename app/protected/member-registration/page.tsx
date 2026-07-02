@@ -1,42 +1,36 @@
 import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MemberRegistrationForm } from "@/components/forms/member-registration-form"
 
-export const metadata = {
-  title: "Member Registration - St William Parish",
-}
+export const dynamic = "force-dynamic"
 
-export default async function MemberRegistrationPage() {
-  const supabase = await createClient()
+export const metadata = { title: "Member Registration - St Edwards Parish" }
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
+export default async function Page() {
+  const session = await getServerSession(authOptions)
+  if (!session?.user) redirect("/auth/login")
 
   return (
     <main className="min-h-screen bg-white">
-
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-slate-900 mb-2">Member Registration</h1>
-            <p className="text-slate-600">Register as a member of St William Parish in your zone</p>
+            <p className="text-slate-600">Please fill out all required fields marked with *</p>
           </div>
-
           <Card>
             <CardHeader>
               <CardTitle>Registration Form</CardTitle>
-              <CardDescription>Please fill out all required fields marked with *</CardDescription>
+              <CardDescription>All information is kept confidential</CardDescription>
             </CardHeader>
             <CardContent>
-              <MemberRegistrationForm userId={data.user.id} />
+              <MemberRegistrationForm userId={session.user.id} />
             </CardContent>
           </Card>
         </div>
       </section>
-
     </main>
   )
 }

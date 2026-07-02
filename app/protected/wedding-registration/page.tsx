@@ -1,42 +1,36 @@
 import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { WeddingRegistrationForm } from "@/components/forms/wedding-registration-form"
 
-export const metadata = {
-  title: "Wedding Registration - St William Parish",
-}
+export const dynamic = "force-dynamic"
 
-export default async function WeddingRegistrationPage() {
-  const supabase = await createClient()
+export const metadata = { title: "Wedding Registration - St Edwards Parish" }
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
+export default async function Page() {
+  const session = await getServerSession(authOptions)
+  if (!session?.user) redirect("/auth/login")
 
   return (
     <main className="min-h-screen bg-white">
-
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-slate-900 mb-2">Wedding Registration</h1>
-            <p className="text-slate-600">Register for marriage preparation and courses</p>
+            <p className="text-slate-600">Please fill out all required fields marked with *</p>
           </div>
-
           <Card>
             <CardHeader>
-              <CardTitle>Wedding Registration Form</CardTitle>
-              <CardDescription>Please provide information for both the groom and bride</CardDescription>
+              <CardTitle>Registration Form</CardTitle>
+              <CardDescription>All information is kept confidential</CardDescription>
             </CardHeader>
             <CardContent>
-              <WeddingRegistrationForm userId={data.user.id} />
+              <WeddingRegistrationForm userId={session.user.id} />
             </CardContent>
           </Card>
         </div>
       </section>
-
     </main>
   )
 }

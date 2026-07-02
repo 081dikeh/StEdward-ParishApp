@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Heart, Users } from "lucide-react"
 
 export const metadata = {
-  title: "Donate - St William Parish",
+  title: "Donate - St Edwards Parish",
   description: "Support the parish with tithes and donations",
 }
 
@@ -18,7 +18,7 @@ export default function DonatePage() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-emerald-50 to-blue-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Support St William Parish</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Support St Edwards Parish</h1>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
               Your generous contributions help us serve our community and fulfill our mission of faith and service
             </p>
@@ -43,13 +43,13 @@ export default function DonatePage() {
                   <p className="text-sm text-slate-600">Quick amounts:</p>
                   <div className="grid grid-cols-2 gap-2">
                     <Button asChild variant="outline" size="sm" className="bg-emerald-50 border-emerald-200">
-                      <Link href="/protected/payment?type=tithe&amount=5000">â‚¦5,000</Link>
+                      <Link href="/protected/payment?type=tithe&amount=5000">₦5,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-emerald-50 border-emerald-200">
-                      <Link href="/protected/payment?type=tithe&amount=10000">â‚¦10,000</Link>
+                      <Link href="/protected/payment?type=tithe&amount=10000">₦10,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-emerald-50 border-emerald-200">
-                      <Link href="/protected/payment?type=tithe&amount=20000">â‚¦20,000</Link>
+                      <Link href="/protected/payment?type=tithe&amount=20000">₦20,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-emerald-50 border-emerald-200">
                       <Link href="/protected/payment?type=tithe&amount=custom">Custom</Link>
@@ -79,13 +79,13 @@ export default function DonatePage() {
                   <p className="text-sm text-slate-600">Quick amounts:</p>
                   <div className="grid grid-cols-2 gap-2">
                     <Button asChild variant="outline" size="sm" className="bg-red-50 border-red-200">
-                      <Link href="/protected/payment?type=donation&amount=5000">â‚¦5,000</Link>
+                      <Link href="/protected/payment?type=donation&amount=5000">₦5,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-red-50 border-red-200">
-                      <Link href="/protected/payment?type=donation&amount=10000">â‚¦10,000</Link>
+                      <Link href="/protected/payment?type=donation&amount=10000">₦10,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-red-50 border-red-200">
-                      <Link href="/protected/payment?type=donation&amount=20000">â‚¦20,000</Link>
+                      <Link href="/protected/payment?type=donation&amount=20000">₦20,000</Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="bg-red-50 border-red-200">
                       <Link href="/protected/payment?type=donation&amount=custom">Custom</Link>

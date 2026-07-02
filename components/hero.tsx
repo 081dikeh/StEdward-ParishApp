@@ -13,12 +13,12 @@ export function Hero() {
               Amawbia, Anambra State
             </p>
             <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6">
-              St William
+              St Edwards
               <span className="block text-emerald-600">Parish</span>
             </h1>
             <p className="text-lg text-slate-600 leading-relaxed mb-8 max-w-md">
               A vibrant Catholic community rooted in faith, sacramental life, and service to
-              our neighbours â€” from baptism to marriage and beyond.
+              our neighbours — from baptism to marriage and beyond.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 shadow-md" asChild>
@@ -45,7 +45,7 @@ export function Hero() {
                 <p className="text-sm text-slate-500 mt-0.5">Services Online</p>
               </div>
               <div className="border-l border-slate-200 pl-8">
-                <p className="text-3xl font-extrabold text-emerald-600">âˆž</p>
+                <p className="text-3xl font-extrabold text-emerald-600">∞</p>
                 <p className="text-sm text-slate-500 mt-0.5">Faith &amp; Community</p>
               </div>
             </div>

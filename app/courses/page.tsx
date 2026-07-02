@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Clock, Users } from "lucide-react"
 
 export const metadata = {
-  title: "Marriage Courses - St William Parish",
+  title: "Marriage Courses - St Edwards Parish",
   description: "Prepare for marriage with our comprehensive courses",
 }
 
@@ -104,7 +104,7 @@ export default function CoursesPage() {
                     <ul className="space-y-2">
                       {course.topics.map((topic, idx) => (
                         <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
-                          <span className="text-emerald-600 font-bold mt-0.5">â€¢</span>
+                          <span className="text-emerald-600 font-bold mt-0.5">•</span>
                           {topic}
                         </li>
                       ))}

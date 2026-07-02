@@ -1,15 +1,14 @@
 "use client"
 
 import type React from "react"
-
-import { createClient } from "@/lib/supabase/client"
+import { useState } from "react"
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -20,21 +19,21 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
     setIsLoading(true)
     setError(null)
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      if (error) throw error
-      router.push("/protected")
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred")
-    } finally {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    })
+
+    if (result?.error) {
+      setError("Invalid email or password")
       setIsLoading(false)
+    } else {
+      router.push("/protected/dashboard")
+      router.refresh()
     }
   }
 
@@ -44,7 +43,7 @@ export default function LoginPage() {
         <div className="flex flex-col gap-6">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
-            <p className="text-slate-600">Sign in to your St William Parish account</p>
+            <p className="text-slate-600">Sign in to your St Edwards Parish account</p>
           </div>
 
           <Card>
@@ -60,7 +59,7 @@ export default function LoginPage() {
                     <Input
                       id="email"
                       type="email"
-                      placeholder="m@example.com"
+                      placeholder="you@example.com"
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -83,7 +82,7 @@ export default function LoginPage() {
                   </div>
                   {error && <p className="text-sm text-red-500">{error}</p>}
                   <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isLoading}>
-                    {isLoading ? "Signing in..." : "Sign In"}
+                    {isLoading ? "Signing in…" : "Sign In"}
                   </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
